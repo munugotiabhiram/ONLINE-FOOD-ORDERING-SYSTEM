@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🍕 FoodVerse 3D – Complete Online Food Ordering System & Dashboard
 
 An ultra-modern, full-stack, and responsive **Online Food Ordering System** crafted with a futuristic **3D glassmorphic UI**, interactive particle depth perspective, dual-option authentication (**Demo Account** & **Official Google OAuth 2.0**), live order tracking stepper, and an executive **Admin Dashboard**.
@@ -213,3 +214,7 @@ WEB FINAL PROJECT/
 ## 🏆 Summary
 
 FoodVerse 3D provides a complete, modern, and production-grade food delivery dashboard experience with genuine 3D visual appeal, authentic Google and Demo authentication, complete shopping cart and order workflows, and administrative control.
+=======
+# ONLINE-FOOD-ORDERING-SYSTEM
+An Online Food Ordering System that allows users to browse menus, order food, make payments, and track deliveries through a simple and user-friendly platform.
+>>>>>>> 1b14b69a096da97bd94ef3b9885921a73f84f971

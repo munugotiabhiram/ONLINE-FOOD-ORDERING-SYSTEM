@@ -1,0 +1,32 @@
+{
+  "name": "foodverse-3d-online-food-ordering",
+  "version": "1.0.0",
+  "description": "Premium 3D-Themed Online Food Ordering System with Demo & Google OAuth2 Authentication, Full Ordering Workflow, and Admin Dashboard",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js",
+    "seed": "node server/database/seed.js",
+    "test": "node test/e2e.test.js"
+  },
+  "keywords": [
+    "food-ordering",
+    "3d-ui",
+    "express",
+    "mysql",
+    "google-oauth",
+    "glassmorphism"
+  ],
+  "author": "FullStack Team",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "google-auth-library": "^9.14.2",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.11.4",
+    "sqlite3": "^5.1.7"
+  }
+}

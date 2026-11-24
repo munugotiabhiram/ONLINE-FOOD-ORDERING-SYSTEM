@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | FoodVerse 3D - Online Food Ordering System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/3d-components.css">
+  <!-- Official Google Identity Services SDK -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <style>
+    .login-wrapper {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .login-card-3d {
+      width: 520px;
+      max-width: 100%;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: var(--radius-xl);
+      padding: 44px 40px;
+      box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.8), 0 0 30px rgba(255, 94, 58, 0.2);
+      position: relative;
+      overflow: hidden;
+      transform-style: preserve-3d;
+    }
+
+    .login-card-3d::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--grad-primary);
+    }
+
+    .login-brand-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .login-brand-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 16px auto;
+      border-radius: var(--radius-lg);
+      background: var(--grad-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 34px;
+      box-shadow: 0 12px 24px rgba(255, 94, 58, 0.5);
+      animation: float3d 4s ease-in-out infinite;
+    }
+
+    .login-brand-title {
+      font-size: 32px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ffffff 40%, #ff9900 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 6px;
+    }
+
+    .login-brand-subtitle {
+      font-size: 14.5px;
+      color: var(--text-secondary);
+    }
+
+    .login-tabs {
+      display: flex;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-md);
+      padding: 4px;
+      margin-bottom: 28px;
+    }
+
+    .login-tab-btn {
+      flex: 1;
+      padding: 10px;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      text-align: center;
+      transition: all var(--transition-fast);
+    }
+
+    .login-tab-btn.active {
+      background: var(--grad-primary);
+      color: #ffffff;
+      box-shadow: 0 4px 12px var(--primary-glow);
+    }
+
+    .auth-method-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-glass-bright);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 20px;
+      transition: all var(--transition-fast);
+    }
+
+    .auth-method-card:hover {
+      border-color: rgba(255, 94, 58, 0.4);
+    }
+
+    .auth-card-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: rgba(255, 94, 58, 0.15);
+      color: #ff8b6e;
+      margin-bottom: 12px;
+    }
+
+    .auth-card-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .auth-card-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    .credentials-box {
+      background: rgba(10, 15, 26, 0.6);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      margin-bottom: 18px;
+      font-size: 13px;
+    }
+
+    .cred-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .cred-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .cred-label {
+      color: var(--text-muted);
+    }
+
+    .cred-value {
+      color: #ffffff;
+      font-family: monospace;
+      font-weight: 700;
+      user-select: all;
+    }
+
+    .btn-google-official {
+      width: 100%;
+      background: #ffffff;
+      color: #1f2937;
+      font-size: 15px;
+      font-weight: 600;
+      padding: 14px 20px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+      transition: all var(--transition-fast);
+      cursor: pointer;
+    }
+
+    .btn-google-official:hover {
+      background: #f3f4f6;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+    }
+
+    .google-logo-svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .google-status-pill {
+      margin-top: 14px;
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+      font-size: 12.5px;
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.25);
+      color: #93c5fd;
+      line-height: 1.5;
+    }
+
+    .divider-text {
+      text-align: center;
+      position: relative;
+      margin: 24px 0;
+    }
+
+    .divider-text::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--border-glass);
+    }
+
+    .divider-text span {
+      position: relative;
+      background: #0f172a;
+      padding: 0 16px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+  </style>
+</head>
+<body>
+  <!-- 3D Background Canvas -->
+  <canvas id="bg-3d-canvas"></canvas>
+
+  <div class="login-wrapper">
+    <div class="login-card-3d tilt-card-3d">
+      
+      <!-- Brand Header -->
+      <div class="login-brand-header">
+        <div class="login-brand-icon">🍕</div>
+        <h1 class="login-brand-title">FoodVerse 3D</h1>
+        <p class="login-brand-subtitle">Next-Generation Immersive Food Ordering</p>
+      </div>
+
+      <!-- Login Method Tabs -->
+      <div class="login-tabs">
+        <button class="login-tab-btn active" id="tab-demo-btn" onclick="switchLoginTab('demo')">
+          Option 1: Demo Login
+        </button>
+        <button class="login-tab-btn" id="tab-google-btn" onclick="switchLoginTab('google')">
+          Option 2: Google Account
+        </button>
+      </div>
+
+      <!-- OPTION 1: DEMO ACCOUNT LOGIN -->
+      <div id="demo-login-panel">
+        <div class="auth-method-card">
+          <div class="auth-card-badge">⚡ Instant Exploration</div>
+          <h2 class="auth-card-title">Demo Customer Account</h2>
+          <p class="auth-card-desc">
+            Explore the complete 3D food dashboard, categories, shopping cart, live order tracking, and profile instantly with pre-seeded demo data.
+          </p>
+
+          <div class="credentials-box">
+            <div class="cred-row">
+              <span class="cred-label">Demo Email:</span>
+              <span class="cred-value" id="demo-display-email">demo@foodverse.com</span>
+            </div>
+            <div class="cred-row">
+              <span class="cred-label">Password:</span>
+              <span class="cred-value" id="demo-display-pass">demo123</span>
+            </div>
+            <div class="cred-row">
+              <span class="cred-label">Role:</span>
+              <span class="cred-value" style="color: #34d399;">Customer (Full Access)</span>
+            </div>
+          </div>
+
+          <form id="demo-login-form" onsubmit="handleDemoSubmit(event)">
+            <div class="form-group">
+              <label class="form-label">Email Address</label>
+              <input type="email" id="demo-email-input" class="form-control" value="demo@foodverse.com" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Password</label>
+              <input type="password" id="demo-password-input" class="form-control" value="demo123" required>
+            </div>
+
+            <button type="submit" class="btn-primary-3d" style="width: 100%; margin-top: 8px;" id="demo-submit-btn">
+              <span>🚀 Enter Dashboard (Demo Customer)</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Quick Demo Admin option for testing section 6 -->
+        <div style="background: rgba(139, 92, 246, 0.08); border: 1px solid rgba(139, 92, 246, 0.25); border-radius: var(--radius-md); padding: 14px 18px; display: flex; align-items: center; justify-content: space-between;">
+          <div>
+            <div style="font-size: 13.5px; font-weight: 700; color: #c084fc;">Need Admin Portal Testing?</div>
+            <div style="font-size: 12px; color: var(--text-secondary);">Access the separate Admin Dashboard</div>
+          </div>
+          <button type="button" class="btn-secondary-3d" style="font-size: 12px; padding: 6px 12px;" onclick="loginAsDemoAdmin()">
+            🛡️ Admin Login
+          </button>
+        </div>
+      </div>
+
+      <!-- OPTION 2: GOOGLE ACCOUNT LOGIN -->
+      <div id="google-login-panel" style="display: none;">
+        <div class="auth-method-card">
+          <div class="auth-card-badge" style="background: rgba(66, 133, 244, 0.15); color: #60a5fa;">Official OAuth 2.0</div>
+          <h2 class="auth-card-title">Sign In with Google</h2>
+          <p class="auth-card-desc">
+            Authenticate securely using your personal Google account. Your Google profile name and profile picture will appear throughout your food ordering dashboard.
+          </p>
+
+          <!-- Official Google Sign-In Button Container (rendered via GSI) -->
+          <div id="g_id_signin_container" style="display: flex; justify-content: center; margin: 20px 0;"></div>
+
+          <!-- Fallback / Direct Google Button -->
+          <button type="button" class="btn-google-official" id="btn-google-custom" onclick="triggerGoogleOAuth()">
+            <svg class="google-logo-svg" viewBox="0 0 24 24">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+            </svg>
+            <span>Continue with Google</span>
+          </button>
+
+          <!-- Google Client Configuration Status Helper -->
+          <div id="google-config-notice" class="google-status-pill">
+            <div style="font-weight: 700; margin-bottom: 4px;" id="google-status-title">🔍 Checking Google OAuth Configuration...</div>
+            <div id="google-status-desc">Verifying backend OAuth Client ID setup...</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/3d-effects.js"></script>
+  <script src="/js/auth.js"></script>
+  <script>
+    // Tab switching
+    function switchLoginTab(tab) {
+      const demoBtn = document.getElementById('tab-demo-btn');
+      const googleBtn = document.getElementById('tab-google-btn');
+      const demoPanel = document.getElementById('demo-login-panel');
+      const googlePanel = document.getElementById('google-login-panel');
+
+      if (tab === 'demo') {
+        demoBtn.classList.add('active');
+        googleBtn.classList.remove('active');
+        demoPanel.style.display = 'block';
+        googlePanel.style.display = 'none';
+      } else {
+        googleBtn.classList.add('active');
+        demoBtn.classList.remove('active');
+        googlePanel.style.display = 'block';
+        demoPanel.style.display = 'none';
+      }
+    }
+
+    // Check if user is already logged in
+    document.addEventListener('DOMContentLoaded', async () => {
+      const token = API.getToken();
+      if (token) {
+        try {
+          const res = await API.get('/api/auth/me');
+          if (res.success && res.user) {
+            API.setUser(res.user);
+            window.location.href = '/';
+            return;
+          }
+        } catch (e) {
+          API.clearAuth();
+        }
+      }
+
+      // Initialize auth config
+      if (window.initAuthPage) {
+        window.initAuthPage();
+      }
+    });
+  </script>
+</body>
+</html>
